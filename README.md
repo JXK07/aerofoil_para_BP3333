@@ -1,6 +1,4 @@
-# aerofoil_para_BP3333
-BP3333: aerofoil parameterization method
-# BP3333 Airfoil Parameterization
+BP3333 Airfoil Parameterization
 
 This repository provides a Python implementation of the BP3333 method presented in **Bezier-PARSEC: An optimized aerofoil parameterization for design**.
 
@@ -21,47 +19,39 @@ python -m pip install numpy scipy matplotlib
 
 ## Quick Start
 
-Run the following commands from the `BP3434` directory.
+First enter the `BP3333` directory. All commands below run directly from this
+directory:
+
+```bash
+cd /path/to/BP3333
+```
 
 Fit a single airfoil:
 
 ```bash
-python -m BP3333.main \
-  --airfoil "BP3333/Test Airfoils/n0012.dat" \
-  --output-dir "BP3333/results"
+python main.py \
+  --airfoil "Test Airfoils/n0012.dat" \
+  --output-dir "results"
 ```
 
 Fit all airfoils in the test directory:
 
 ```bash
-python -m BP3333.main \
+python main.py \
   --all \
-  --test-dir "BP3333/Test Airfoils" \
-  --output-dir "BP3333/results"
+  --test-dir "Test Airfoils" \
+  --output-dir "results"
 ```
 
-SLSQP is used by default. The nonlinear least-squares optimizer is also available:
+Multi-start SLSQP is used by default. If every SLSQP run fails, the code
+automatically falls back to a Differential Evolution GA. GA and nonlinear
+least-squares optimization can also be selected directly:
 
 ```bash
-python -m BP3333.main \
-  --airfoil "BP3333/Test Airfoils/n0012.dat" \
-  --output-dir "BP3333/results" \
-  --optimizer least_squares
-```
-
-## Python API
-
-```python
-from BP3333.fitting import fit_airfoil
-
-result = fit_airfoil(
-    "BP3333/Test Airfoils/n0012.dat",
-    max_nfev=900,
-    optimizer="slsqp",
-)
-
-print(result.params.to_dict())
-print(result.mae, result.rms, result.max_abs_error)
+python main.py \
+  --airfoil "Test Airfoils/n0012.dat" \
+  --output-dir "results" \
+  --optimizer ga
 ```
 
 ## Input and Output
@@ -71,7 +61,7 @@ The input file must contain airfoil contour coordinates. The first line is the a
 Each fit produces:
 
 - `*_bp3333.dat`: reconstructed airfoil coordinates;
-- `*_bp3333.json`: the 12 BP3333 parameters, MAE/RMS/maximum absolute error, and optimizer information;
+- `*_bp3333.json`: the 12 BP3333 parameters, errors, optimizer information, and root-selection strategy;
 - `*_bp3333_thickness.png`: comparison of the thickness and camber distributions;
 - `*_bp3333_airfoil.png`: comparison of the reference and fitted airfoil contours.
 
@@ -86,6 +76,7 @@ Each fit produces:
 ## Reference
 
 R. W. Derksen and T. Rogalsky, “Bezier-PARSEC: An optimized aerofoil parameterization for design,” *Advances in Engineering Software*, vol. 41, pp. 923-930, 2010. DOI: [10.1016/j.advengsoft.2010.05.002](https://doi.org/10.1016/j.advengsoft.2010.05.002)
+
 # BP3333 翼型参数化
 
 这是论文 **Bezier-PARSEC: An optimized aerofoil parameterization for design** 中 BP3333 方法的 Python 实现。
@@ -107,57 +98,48 @@ python -m pip install numpy scipy matplotlib
 
 ## 快速开始
 
-请在 `BP3434` 目录下运行以下命令。
+先进入 `BP3333` 目录，后续命令都直接在该目录内执行：
+
+```bash
+cd /path/to/BP3333
+```
 
 拟合单个翼型：
 
 ```bash
-python -m BP3333.main \
-  --airfoil "BP3333/Test Airfoils/n0012.dat" \
-  --output-dir "BP3333/results"
+python main.py \
+  --airfoil "Test Airfoils/n0012.dat" \
+  --output-dir "results"
 ```
 
 拟合测试目录中的全部翼型：
 
 ```bash
-python -m BP3333.main \
+python main.py \
   --all \
-  --test-dir "BP3333/Test Airfoils" \
-  --output-dir "BP3333/results"
+  --test-dir "Test Airfoils" \
+  --output-dir "results"
 ```
 
-默认使用 SLSQP 优化器，也可以改用非线性最小二乘：
+默认使用多起点 SLSQP；如果所有 SLSQP 计算均失败，程序会自动改用
+Differential Evolution GA。也可以直接选择 GA 或非线性最小二乘：
 
 ```bash
-python -m BP3333.main \
-  --airfoil "BP3333/Test Airfoils/n0012.dat" \
-  --output-dir "BP3333/results" \
-  --optimizer least_squares
+python main.py \
+  --airfoil "Test Airfoils/n0012.dat" \
+  --output-dir "results" \
+  --optimizer ga
 ```
 
-## Python API
-
-```python
-from BP3333.fitting import fit_airfoil
-
-result = fit_airfoil(
-    "BP3333/Test Airfoils/n0012.dat",
-    max_nfev=900,
-    optimizer="slsqp",
-)
-
-print(result.params.to_dict())
-print(result.mae, result.rms, result.max_abs_error)
-```
 
 ## 输入与输出
 
-输入文件应为翼型轮廓坐标，第一行为名称，后续每行为一组 `x y` 坐标。轮廓点按上表面尾缘到前缘、再按下表面前缘到尾缘的顺序排列。
+输入文件应为翼型轮廓坐标，第一行为名称，后续每行为一组 `x y` 坐标。轮廓点按吸力面尾缘到前缘、再按压力面前缘到尾缘的顺序排列。
 
 每个拟合结果会输出：
 
 - `*_bp3333.dat`：重建后的翼型坐标；
-- `*_bp3333.json`：12 个 BP3333 参数、MAE/RMS/最大绝对误差和优化信息；
+- `*_bp3333.json`：12 个 BP3333 参数、MAE/RMS/最大绝对误差、实际优化器和根选择策略；
 - `*_bp3333_thickness.png`：厚度与弯度分布对比图；
 - `*_bp3333_airfoil.png`：原始翼型与拟合翼型对比图。
 
