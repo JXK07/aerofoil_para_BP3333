@@ -111,6 +111,7 @@ Each fit produces:
 
 R. W. Derksen and T. Rogalsky, “Bezier-PARSEC: An optimized aerofoil parameterization for design,” *Advances in Engineering Software*, vol. 41, pp. 923-930, 2010. DOI: [10.1016/j.advengsoft.2010.05.002](https://doi.org/10.1016/j.advengsoft.2010.05.002)
 
+Vermeulen, Thomas (2025): The Unified Ducted Fan Code and Ducted Fan Optimisation Framework. Version 1. 4TU.ResearchData. software. https://doi.org/10.4121/efc63362-65e5-4c5d-b787-27e44dafa52a
 
 # BP3333 翼型参数化
 
@@ -215,3 +216,7 @@ python main.py \
 ## 参考文献
 
 R. W. Derksen and T. Rogalsky, “Bezier-PARSEC: An optimized aerofoil parameterization for design,” *Advances in Engineering Software*, vol. 41, pp. 923-930, 2010. DOI: [10.1016/j.advengsoft.2010.05.002](https://doi.org/10.1016/j.advengsoft.2010.05.002)
+
+Vermeulen, Thomas (2025): The Unified Ducted Fan Code and Ducted Fan Optimisation Framework. Version 1. 4TU.ResearchData. software. https://doi.org/10.4121/efc63362-65e5-4c5d-b787-27e44dafa52a
+
+
